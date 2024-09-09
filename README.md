@@ -6,9 +6,9 @@ This is real btw. Presenting... **TrashTag**.
 
 ## What is TrashTag?
 
-TrashTag is my first attempt at an very complex app. It’s simple: see trash, report it. We're out here trying to make the world a little cleaner, one tagged piece of trash at a time. 
+TrashTag is my first attempt at a very complex app. It’s simple: see trash, report it. We're out here trying to make the world a little cleaner, one tagged piece of trash at a time. 
 
-## Features (For Real This Time)
+## Features
 
 - **Home**: Where it all begins. Your starting point for reporting trash.
 - **Recycle**: Because we love the environment, and so should you.
@@ -21,3 +21,11 @@ TrashTag is my first attempt at an very complex app. It’s simple: see trash, r
 1. See trash on a trail? Open the app.
 2. Report the trash location, and we’ll handle the rest.
 3. Feel great for doing your part in reducing litter!
+
+## Languages & Tools...
+- **React (JS)**: My favorite organizing tool!
+- **Express & NPM**: To get this running
+- **CSS**: The best thing in the world :)
+- **Google Account Login**: The best way to login/signup!!
+
+*Not all features are working yet, I will be implementing them soon though.
