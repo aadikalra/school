@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Cookies from 'js-cookie';
 
 const navigation = [
     { name: 'Home', href: '/', icon: <i className="fa-solid fa-house-chimney"></i> },
@@ -10,10 +10,24 @@ const navigation = [
     { name: 'Account', href: '/account', icon: <i className="fa-solid fa-user"></i> },
 ];
 
-function Navbar() {
-
+const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [bouncingIndex, setBouncingIndex] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        // Retrieve user info from cookies on component mount
+        const storedUserInfo = Cookies.get('userInfo');
+        if (storedUserInfo) {
+            setUserInfo(JSON.parse(storedUserInfo)); // Parse the string back to JSON
+        }
+    }, []);
+
+    // Logout handler
+    const handleLogout = () => {
+        Cookies.remove('userInfo'); // Remove cookie
+        setUserInfo(null); // Clear user info from state
+    };
 
     const handleMouseEnter = (index) => {
         setBouncingIndex(index);
@@ -64,9 +78,34 @@ function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                    {userInfo ? (
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img
+                                        alt={userInfo.name}
+                                        src={userInfo.picture}
+                                    />
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex={0}
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                                <li>
+                                    <a className="justify-between">
+                                        Profile
+                                        <span className="badge">New</span>
+                                    </a>
+                                </li>
+                                <li><a>Settings</a></li>
+                                <li><a onClick={handleLogout} >Logout</a></li>
+                            </ul>
+                        </div>
+                    ) : (
                     <a href="/login" className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                        Log in <span aria-hidden="true">&rarr;</span>
+                        Login <span aria-hidden="true">&rarr;</span>
                     </a>
+                    )}
                 </div>
             </nav>
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -97,8 +136,7 @@ function Navbar() {
                                         className={`-mx-3 block rounded-lg px-3 py-2 bg-gray-300 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ${item.name === "Recycle"
                                             ? "bg-gradient-to-r from-[#77d95b] to-[#1e803f] text-white backdrop-blur-lg hover:from-[#77d95b]/90 hover:to-[#1e803f]/90 shadow-md"
                                             : ""
-                                            }
-                        `}
+                                            }`}
                                     >
                                         {item.name}
                                     </a>
